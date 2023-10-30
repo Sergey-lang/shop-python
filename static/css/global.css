@@ -1,0 +1,34 @@
+.btn {
+    padding: 5px 10px;
+    border: 1px solid silver;
+    border-radius: 5px;
+}
+
+.btn:hover {
+    color: white;
+    background-color: #90acf6;
+}
+
+.products_container {
+    display: flex;
+    gap: 5px;
+}
+
+.products_container .product_card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 400px;
+    height: 200px;
+    border: 2px solid silver;
+}
+
+.product_card-controls {
+    display: flex;
+    justify-content: end;
+}
+
+.product_detail {
+    display: flex;
+    flex-direction: column;
+}
