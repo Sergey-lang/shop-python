@@ -32,3 +32,19 @@
     display: flex;
     flex-direction: column;
 }
+
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.header .categories {
+    width: 70%;
+    display: flex;
+}
+
+.header .card {
+    width: 30%;
+    display: flex;
+}

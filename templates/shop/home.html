@@ -1,5 +1,4 @@
 {% load static %}
-{% load static %}
 
 <!doctype html>
 <html lang="en">
@@ -12,14 +11,23 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/global.css' %}">
 </head>
 <body>
-<h2>Categories</h2>
-<ul>
-    {% for category in categories %}
-        <li>
-            <a href="{% url 'product_list_by_category' category_pk=category.pk %}">{{ category.title }}</a>
-        </li>
-    {% endfor %}
-</ul>
+
+<div class="header">
+    <div class="categories">
+        <h2>Categories</h2>
+        <ul>
+            {% for category in categories %}
+                <li>
+                    <a href="{% url 'product_list_by_category' category_pk=category.pk %}">{{ category.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="card">
+         <a href="">CARD</a>
+    </div>
+</div>
+
 <h4>Products:</h4>
 <div class="products_container">
     {% for product in products %}
