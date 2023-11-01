@@ -27,9 +27,14 @@
     <span>Product name: {{ product.title }}</span>
     <span>Product description: {{ product.description }}</span>
     <span>Product price: {{ product.price }}</span>
-    <a href="{% url 'add_product_to_cart' product_pk=product.pk %}" class="btn">
-        Add to Cart
-    </a>
+    <div style="margin-top: 10px">
+        <a href="{% url 'add_product_to_cart' product_pk=product.pk %}" class="btn">
+            Add to Cart
+        </a>
+        <a href="{% url 'get_cart' %}" class="btn">
+            Follow to Cart
+        </a>
+    </div>
 </div>
 </body>
 </html>

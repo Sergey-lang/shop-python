@@ -31,7 +31,7 @@ class Card(models.Model):
 
 class Cart(models.Model):
     user = models.OneToOneField("auth.USER", on_delete=models.CASCADE)
-    products = models.ManyToManyField("Product", related_name="Products")
+    products = models.ManyToManyField("Product", related_name="Products", null=True, blank=True)
 
     def __str__(self):
         return f'{self.user}'

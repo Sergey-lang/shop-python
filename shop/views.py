@@ -49,6 +49,5 @@ def add_product_to_cart(request, product_pk):
 def get_cart(request):
     cart_by_user = Cart.objects.get(user=request.user)
     cart_products = cart_by_user.products
-    categories = get_all_categories()
-    context = {"categories": categories, 'cart_products': cart_products}
-    return render(request, 'shop/product_detail.html', context)
+    context = {'cart_products': cart_products}
+    return render(request, 'shop/cart.html', context)
