@@ -62,6 +62,13 @@ def clean_all_cart(request):
     return render(request, 'shop/cart.html', context)
 
 
+def order_products(request):
+    cart = get_object_or_404(Cart, user=request.user)
+    cart.products.clear()
+    context = {'cart_products': cart.products.all()}
+    return render(request, 'shop/thank_you_page.html', context)
+
+
 def get_cart(request):
     cart = get_object_or_404(Cart, user=request.user)
     context = {'cart_products': cart.products.all()}

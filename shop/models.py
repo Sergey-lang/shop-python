@@ -35,3 +35,15 @@ class Cart(models.Model):
 
     def __str__(self):
         return f'{self.user}'
+
+
+class Order(models.Model):
+    user = models.ForeignKey("auth.USER", on_delete=models.CASCADE)
+    products = models.ManyToManyField("Product")
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="total price")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Order #{self.pk} - User: {self.user.username}"
