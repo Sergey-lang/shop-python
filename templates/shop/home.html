@@ -24,14 +24,14 @@
         </ul>
     </div>
     <div class="card">
-         <a href="">CARD</a>
+        <a href="">CARD</a>
     </div>
 </div>
 
 <h4>Products:</h4>
 <div class="products_container">
     {% for product in products %}
-        <div class="product_card">
+        <div class="product_card" style="padding: 5px">
             <a href="">{{ product.title }}</a>
             <div class="product_card-controls">
                 <a href="{% url 'product_detail' product_pk=product.pk %}" class="btn">View detail</a>

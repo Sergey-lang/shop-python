@@ -15,12 +15,21 @@
     Back to List
 </a>
 <h4>Cart:</h4>
-<div class="product_detail">
+<div style="margin-bottom: 20px;">
+    <a href="{% url 'clean_all_cart' %}" class="btn" style="background-color: red; color:white; text-decoration: none">Clean
+        Cart</a>
+</div>
+
+<div class="products_container">
     {% for product in cart_products %}
-        <div>
-            <span>Product name: {{ product.title }}</span>
-            <span>Product description: {{ product.description }}</span>
-            <span>Product price: {{ product.price }}</span>
+        <div class="product_card" style="padding: 5px">
+            <a href="">{{ product.title }}</a>
+            <div class="product_card-controls" style="display: flex; justify-content: space-between">
+                <a href="{% url 'product_detail' product_pk=product.pk %}" class="btn" style="text-decoration: none">View
+                    detail</a>
+                <a href="{% url 'delete_product_from_cart' product_pk=product.pk %}" class="btn"
+                   style="text-decoration: none">Delete</a>
+            </div>
         </div>
     {% endfor %}
 </div>

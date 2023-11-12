@@ -41,13 +41,28 @@ def product_detail(request, product_pk):
 
 def add_product_to_cart(request, product_pk):
     product = get_product_detail(product_pk)
-    product_to_card = Cart.objects.create(user=request.user)
-    product_to_card.products.add(product)
-    return redirect('shop/product_detail.html', product_pk=product_pk)
+    cart = Cart.objects.filter(user=request.user).first()
+    if cart == None:
+        cart = Cart.objects.create(user=request.user)
+    cart.products.add(product)
+    return redirect('product_detail', product_pk=product_pk)
+
+
+def delete_product_from_cart(request, product_pk):
+    cart = Cart.objects.filter(user=request.user).first()
+    cart.products.remove(product_pk)
+    context = {'cart_products': cart.products.all()}
+    return render(request, 'shop/cart.html', context)
+
+
+def clean_all_cart(request):
+    cart = get_object_or_404(Cart, user=request.user)
+    cart.products.clear()
+    context = {'cart_products': cart.products.all()}
+    return render(request, 'shop/cart.html', context)
 
 
 def get_cart(request):
-    cart_by_user = Cart.objects.get(user=request.user)
-    cart_products = cart_by_user.products
-    context = {'cart_products': cart_products}
+    cart = get_object_or_404(Cart, user=request.user)
+    context = {'cart_products': cart.products.all()}
     return render(request, 'shop/cart.html', context)
