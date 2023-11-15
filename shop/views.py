@@ -1,7 +1,8 @@
+from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 
-from shop.models import Category, Product, Cart, Card
+from shop.models import Category, Product, Cart, Order
 
 
 def get_all_categories():
@@ -16,6 +17,12 @@ def get_products_list(key=None):
 
 def get_product_detail(key):
     return get_object_or_404(Product, pk=key)
+
+
+def clean_cart(user):
+    cart = get_object_or_404(Cart, user=user)
+    cart.products.clear()
+    return cart
 
 
 def home(request):
@@ -56,20 +63,37 @@ def delete_product_from_cart(request, product_pk):
 
 
 def clean_all_cart(request):
-    cart = get_object_or_404(Cart, user=request.user)
-    cart.products.clear()
+    cart = clean_cart(request.user)
     context = {'cart_products': cart.products.all()}
     return render(request, 'shop/cart.html', context)
 
 
 def order_products(request):
-    cart = get_object_or_404(Cart, user=request.user)
-    cart.products.clear()
-    context = {'cart_products': cart.products.all()}
+    # get cart by user
+    cart = Cart.objects.filter(user=request.user).annotate(
+        sum=Sum('products__price')).prefetch_related('products').first()
+    # get cart products
+    cart_products = cart.products.all()
+    # calc products total amount
+    total_products_sum = cart.sum
+    # create order
+    order = Order.objects.create(user=request.user, total_amount=total_products_sum)
+    # add products to order
+    order.products.add(*cart_products)
+    # clean cart
+    clean_cart(request.user)
+    context = {'order': order}
+    # redirect to thank you page
     return render(request, 'shop/thank_you_page.html', context)
 
 
 def get_cart(request):
     cart = get_object_or_404(Cart, user=request.user)
     context = {'cart_products': cart.products.all()}
+    return render(request, 'shop/cart.html', context)
+
+
+def get_orders(request):
+    orders = Order.objects.all()
+    context = {'orders': orders}
     return render(request, 'shop/cart.html', context)

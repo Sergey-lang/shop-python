@@ -13,8 +13,8 @@
 <body>
 
 <div class="header">
+    <h2>Categories</h2>
     <div class="categories">
-        <h2>Categories</h2>
         <ul>
             {% for category in categories %}
                 <li>
@@ -24,7 +24,10 @@
         </ul>
     </div>
     <div class="card">
-        <a href="">CARD</a>
+        <a href="{% url 'get_cart' %}">CARD</a>
+    </div>
+    <div class="card">
+        <a href="{% url 'get_orders' %}">ORDERS</a>
     </div>
 </div>
 

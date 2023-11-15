@@ -11,20 +11,17 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/global.css' %}">
 </head>
 <body>
-<h4 style="text-align: center">Ordering</h4>
+<a href="{% url 'home' %}" class="btn">
+    Back to Home
+</a>
+<h4>Cart:</h4>
+
 <div class="products_container">
-    Thank you for order products!!!
-    <div class="products_container">
-        {% for product in order.products.all %}
-            <div class="product_card" style="padding: 5px">
-                <a href="">{{ product.title }}</a>
-            </div>
-        {% endfor %}
-    </div>
-    <div>Total price: {{ order.total_amount }}</div>
-    <a href="{% url 'home' %}" class="btn">
-        Back to Home Page
-    </a>
+    {% for order in orders %}
+        <div class="product_card" style="padding: 5px">
+            <a href="">{{ order.id }}</a>
+        </div>
+    {% endfor %}
 </div>
 </body>
 </html>
