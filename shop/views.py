@@ -1,6 +1,7 @@
 from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
+from collections import Counter
 
 from shop.models import Category, Product, Cart, Order
 
@@ -84,7 +85,7 @@ def order_products(request):
     clean_cart(request.user)
     context = {'order': order}
     # redirect to thank you page
-    return render(request, 'shop/thank_you_page.html', context)
+    return redirect(request, 'shop/thank_you_page.html', context)
 
 
 def get_cart(request):
@@ -94,6 +95,23 @@ def get_cart(request):
 
 
 def get_orders(request):
-    orders = Order.objects.all()
+    orders = Order.objects.filter(user=request.user).all()
     context = {'orders': orders}
-    return render(request, 'shop/cart.html', context)
+    return render(request, 'shop/orders_list.html', context)
+
+
+def get_product_popularity(request):
+    orders = Order.objects.all()
+    # create counter
+    product_counts = Counter()
+
+    for order in orders:
+        # get products from every order
+        products = order.products.all()
+        # get names
+        product_names = [product.title for product in products]
+        product_counts.update(product_names)
+
+    most_popular_product = product_counts.most_common(1)[0][0]
+    context = {'orders': orders, 'most_popular_product': most_popular_product}
+    return render(request, 'shop/popular_product.html', context)
